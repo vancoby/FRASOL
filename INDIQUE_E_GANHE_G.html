@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRASOL - Programa de Indicações</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --frasol-green: #004d40;
+            --frasol-green-light: #006953;
+            --frasol-gold: #d4af37;
+            --frasol-gold-light: #e5c267;
+            --frasol-dark: #1a1a1a;
+            --frasol-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+        
+        .header-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            text-decoration: none; 
+        }
+        
+        .logo-text { 
+            font-weight: 800; 
+            font-size: 26px; 
+            background: linear-gradient(to right, var(--frasol-green), var(--frasol-green-light)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        
+        .logo-subtext { 
+            font-size: 12px; 
+            font-weight: 600; 
+            color: var(--text-light); 
+            border-left: 2px solid var(--frasol-gold); 
+            padding-left: 10px; 
+        }
+        
+        .nav-desktop { 
+            display: flex; 
+            gap: 30px; 
+        }
+        
+        .nav-desktop a { 
+            text-decoration: none; 
+            color: var(--text-dark); 
+            font-weight: 500; 
+            transition: var(--transition); 
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-desktop a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--frasol-green);
+            transition: var(--transition);
+        }
+        
+        .nav-desktop a:hover { 
+            color: var(--frasol-green); 
+        }
+        
+        .nav-desktop a:hover:after {
+            width: 100%;
+        }
+        
+        .cta-button { 
+            background: linear-gradient(to right, var(--frasol-gold), var(--frasol-gold-light)); 
+            color: white; 
+            border: none; 
+            border-radius: 50px; 
+            padding: 14px 30px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); 
+            text-decoration: none; 
+            display: inline-block; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover:before {
+            left: 100%;
+        }
+        
+        .cta-button:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4); 
+        }
+        
+        .mobile-menu-btn { 
+            display: none; 
+            background: none; 
+            border: none; 
+            font-size: 24px; 
+            cursor: pointer; 
+            color: var(--frasol-dark); 
+            z-index: 1001;
+        }
+        
+        /* Hero */
+        .hero { 
+            background: linear-gradient(rgba(0, 77, 64, 0.88), rgba(0, 77, 64, 0.92)), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80') center/cover no-repeat; 
+            color: white; 
+            padding: 120px 0 100px; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,224C672,235,768,181,864,160C960,139,1056,149,1152,165.3C1248,181,1344,203,1392,213.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+        }
+        
+        .hero h1 { 
+            font-size: 3.2rem; 
+            margin-bottom: 20px; 
+            font-weight: 800; 
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p { 
+            font-size: 1.25rem; 
+            max-width: 700px; 
+            margin: 0 auto 40px; 
+            opacity: 0.9; 
+            font-weight: 300;
+        }
+        
+        .hero-buttons { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            flex-wrap: wrap;
+        }
+        
+        /* Seções */
+        section { 
+            padding: 90px 0; 
+            position: relative;
+        }
+        
+        .section-title { 
+            text-align: center; 
+            margin-bottom: 60px; 
+        }
+        
+        .section-title h2 { 
+            font-size: 2.6rem; 
+            color: var(--text-dark); 
+            margin-bottom: 20px; 
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--frasol-green), var(--frasol-gold));
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-title p { 
+            color: var(--text-light); 
+            max-width: 650px; 
+            margin: 25px auto 0; 
+            font-size: 1.1rem;
+        }
+        
+        .bg-light { 
+            background-color: var(--frasol-light); 
+        }
+        
+        /* Parceiros */
+        .partners-grid { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 50px; 
+            flex-wrap: wrap; 
+            margin-top: 40px;
+        }
+        
+        .partner-logo-display { 
+            height: 70px; 
+            object-fit: contain; 
+            filter: grayscale(100%); 
+            opacity: 0.7; 
+            transition: var(--transition); 
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+        
+        .partner-logo-display:hover { 
+            filter: grayscale(0%); 
+            opacity: 1; 
+            transform: scale(1.1); 
+        }
+
+        /* Como Funciona */
+        .steps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 30px; 
+            margin-top: 40px;
+        }
+        
+        .step-card { 
+            text-align: center; 
+            padding: 30px 20px; 
+            border-radius: 16px;
+            background: white;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--frasol-green), var(--frasol-gold));
+            transition: var(--transition);
+        }
+        
+        .step-card:hover:before {
+            height: 100%;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .step-icon { 
+            width: 90px; 
+            height: 90px; 
+            background: linear-gradient(135deg, rgba(0, 77, 64, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0 auto 25px; 
+            color: var(--frasol-green); 
+            font-size: 34px; 
+            border: 2px solid rgba(0, 77, 64, 0.15);
+            transition: var(--transition);
+        }
+        
+        .step-card:hover .step-icon {
+            background: linear-gradient(135deg, var(--frasol-green) 0%, var(--frasol-gold) 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .step-card h3 { 
+            margin-bottom: 15px; 
+            color: var(--frasol-green); 
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .step-card p { 
+            color: var(--text-light); 
+            font-size: 0.95rem;
+        }
+        
+        /* Catálogo de Prêmios */
+        .tabs { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 15px; 
+            margin-bottom: 40px; 
+        }
+        
+        .tab { 
+            padding: 14px 30px; 
+            background: rgba(0, 0, 0, 0.05); 
+            border: 2px solid transparent; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            color: var(--text-dark); 
+        }
+        
+        .tab.active { 
+            background: var(--frasol-green); 
+            color: white; 
+            border-color: var(--frasol-green);
+            box-shadow: 0 5px 15px rgba(0, 77, 64, 0.3);
+        }
+        
+        .tab:hover:not(.active) {
+            border-color: var(--frasol-green);
+        }
+        
+        .tab-content { 
+            display: none; 
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active { 
+            display: block; 
+        }
+        
+        .prizes-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+        
+        .prize-card { 
+            background: white; 
+            border-radius: 16px; 
+            text-align: center; 
+            box-shadow: var(--shadow); 
+            transition: var(--transition); 
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .prize-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--frasol-green), var(--frasol-gold));
+        }
+        
+        .prize-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+        }
+        
+        .prize-logo { 
+            height: 100px; 
+            width: 100%; 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            margin: 30px 0 20px;
+            transition: var(--transition);
+        }
+        
+        .prize-card:hover .prize-logo {
+            transform: scale(1.1);
+        }
+        
+        .prize-card-content { 
+            padding: 20px 30px 30px; 
+        }
+        
+        .prize-card-content h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .prize-points { 
+            font-size: 2.2rem; 
+            font-weight: 800; 
+            margin: 15px 0; 
+            color: var(--frasol-green);
+            background: linear-gradient(to right, var(--frasol-green), var(--frasol-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Níveis e Conquistas */
+        .levels-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 50px; 
+        }
+        
+        .level-card { 
+            border-radius: 16px; 
+            padding: 40px 25px; 
+            text-align: center; 
+            transition: var(--transition); 
+            background: white;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .level-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        
+        .level-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12); 
+        }
+        
+        .level-icon { 
+            font-size: 3.5rem; 
+            margin-bottom: 20px; 
+            transition: var(--transition);
+        }
+        
+        .level-card:hover .level-icon {
+            transform: scale(1.1);
+        }
+        
+        .level-card.bronze:before { background: #cd7f32; } 
+        .level-card.bronze .level-icon { color: #cd7f32; }
+        .level-card.prata:before { background: #c0c0c0; } 
+        .level-card.prata .level-icon { color: #c0c0c0; }
+        .level-card.ouro:before { background: var(--frasol-gold); } 
+        .level-card.ouro .level-icon { color: var(--frasol-gold); }
+        .level-card.embaixador:before { background: var(--frasol-green); } 
+        .level-card.embaixador .level-icon { color: var(--frasol-green); }
+        
+        .level-card h3 {
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        
+        .level-card p {
+            color: var(--text-light);
+        }
+        
+        .badges-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+        }
+        
+        .badge-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            border-left: 4px solid var(--frasol-green); 
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .badge-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+        
+        .badge-icon { 
+            font-size: 2.5rem; 
+            color: var(--frasol-green); 
+            transition: var(--transition);
+        }
+        
+        .badge-item:hover .badge-icon {
+            transform: scale(1.1);
+        }
+        
+        .badge-item h4 {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .badge-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        
+        /* Ranking */
+        .ranking-table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .ranking-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 20px 0; 
+            background: white;
+            min-width: 600px;
+        }
+        
+        .ranking-table th, .ranking-table td { 
+            padding: 18px 20px; 
+            text-align: left; 
+            border-bottom: 1px solid #eee; 
+        }
+        
+        .ranking-table th { 
+            background-color: var(--frasol-green); 
+            color: white; 
+            font-weight: 600; 
+            position: sticky;
+            top: 0;
+        }
+        
+        .ranking-table tr:nth-child(even) { 
+            background-color: #fdfdfd; 
+        }
+        
+        .ranking-table tr:hover { 
+            background-color: #f0f9f0; 
+        }
+        
+        .top-rank { 
+            background-color: #fff9e6 !important; 
+            font-weight: bold; 
+        }
+        
+        .ranking-table td:first-child {
+            font-weight: 700;
+            color: var(--frasol-green);
+        }
+        
+        /* FAQ */
+        .faq-item { 
+            border-bottom: 1px solid #eee; 
+            padding: 25px 0; 
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            background-color: #f9f9f9;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin: 0 -15px;
+            border-radius: 8px;
+        }
+        
+        .faq-question { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 1.15rem; 
+        }
+        
+        .faq-question i { 
+            transition: var(--transition); 
+            color: var(--text-light);
+        }
+        
+        .faq-answer { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out; 
+            color: var(--text-light); 
+            line-height: 1.7;
+        }
+        
+        .faq-item.active .faq-answer { 
+            max-height: 300px; 
+            padding-top: 20px; 
+        }
+        
+        .faq-item.active .faq-question i { 
+            transform: rotate(180deg); 
+            color: var(--frasol-green); 
+        }
+        
+        /* Formulário */
+        .form-container { 
+            position: relative; 
+            width: 100%; 
+            overflow: hidden; 
+            padding-top: min(130%, 800px); 
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        .responsive-iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+        
+        /* Footer & WhatsApp */
+        footer { 
+            background: var(--frasol-dark); 
+            color: white; 
+            padding: 80px 0 40px; 
+            text-align: center; 
+        }
+        
+        .footer-bottom { 
+            margin-top: 40px; 
+            padding-top: 25px; 
+            border-top: 1px solid #333; 
+            color: #999; 
+            font-size: 14px; 
+        }
+        
+        .whatsapp-float { 
+            position: fixed; 
+            width: 60px; 
+            height: 60px; 
+            bottom: 40px; 
+            right: 40px; 
+            background-color: #25d366; 
+            color: #FFF; 
+            border-radius: 50px; 
+            text-align: center; 
+            font-size: 30px; 
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); 
+            z-index: 1000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: var(--transition); 
+            animation: pulse 2s infinite; 
+        }
+        
+        .whatsapp-float:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        }
+        
+        @keyframes pulse { 
+            0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.7); } 
+            70% { box-shadow: 0 0 0 12px rgba(37,211,102,0); } 
+            100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); } 
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .steps-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+            }
+            
+            .levels-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-desktop { 
+                display: none; 
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 999;
+            }
+            
+            .nav-desktop.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn { 
+                display: block; 
+            }
+            
+            .hero h1 { 
+                font-size: 2.4rem; 
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .hero-buttons { 
+                flex-direction: column; 
+                align-items: center; 
+                padding: 0 20px;
+            }
+            
+            .hero-buttons .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .steps-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .levels-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prizes-grid { 
+                grid-template-columns: 1fr; 
+            }
+            
+            .section-title h2 { 
+                font-size: 2rem; 
+            }
+            
+            .section-title p {
+                padding: 0 15px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+            
+            .badges-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding-top: min(150%, 800px);
+            }
+        }
+        
+        /* Animações de entrada */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-text">FRASOL</span>
+                <span class="logo-subtext">ENERGIA SOLAR</span>
+            </a>
+            <nav class="nav-desktop">
+                <a href="#parceiros">Parceiros</a>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#premios">Prêmios</a>
+                <a href="#niveis">Níveis</a>
+                <a href="#ranking">Ranking</a>
+                <a href="#indicar">Indicar</a>
+            </nav>
+            <a href="https://wa.me/559991601780" target="_blank" class="cta-button">Fale Conosco</a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Indique e Ganhe com a FRASOL</h1>
+                <p>Transforme sua rede de contatos em recompensas incríveis. Indique amigos para instalar energia solar e ganhe vales-presentes de grandes marcas!</p>
+                <div class="hero-buttons">
+                    <a href="#indicar" class="cta-button">Quero Indicar Agora</a>
+                    <a href="#como-funciona" class="cta-button" style="background: rgba(255, 255, 255, 0.2); border: 2px solid white;">Entenda Como</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="parceiros">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Prêmios que Valem a Pena: Conheça Nossos Parceiros</h2>
+                    <p>Troque seus pontos por vales-presentes das melhores marcas do mercado</p>
+                </div>
+                <div class="partners-grid">
+                    <img src="https://via.placeholder.com/200x80/2c3e50/ffffff?text=DR+CELULARES" alt="DR Celulares" class="partner-logo-display fade-in">
+                    <img src="https://via.placeholder.com/200x80/c0392b/ffffff?text=HERING" alt="Hering" class="partner-logo-display fade-in">
+                    <img src="https://s11.aconvert.com/convert/p3r68-cdx67/p6div-58pfv.jpg" alt="Zona do Sport" class="partner-logo-display fade-in">
+                </div>
+            </div>
+        </section>
+
+        <section id="como-funciona" class="bg-light">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Como Funciona em 4 Passos Simples</h2>
+                    <p>Descubra como é fácil participar do nosso programa de indicações e começar a ganhar recompensas</p>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-card fade-in">
+                        <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+                        <h3>1. Indique</h3>
+                        <p>Preencha o formulário no final da página com os dados do seu amigo.</p>
+                    </div>
+                    <div class="step-card fade-in">
+                        <div class="step-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>2. Instalação</h3>
+                        <p>Aguarde seu amigo fechar o projeto de energia solar com a FRASOL.</p>
+                    </div>
+                    <div class="step-card fade-in">
+                        <div class="step-icon"><i class="fas fa-coins"></i></div>
+                        <h3>3. Pontue</h3>
+                        <p>Você ganha pontos automaticamente assim que a instalação for confirmada.</p>
+                    </div>
+                    <div class="step-card fade-in">
+                        <div class="step-icon"><i class="fas fa-gift"></i></div>
+                        <h3>4. Resgate</h3>
+                        <p>Troque seus pontos por vales-presentes incríveis de nossos parceiros!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="premios">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Catálogo de Prêmios</h2>
+                    <p>Troque seus pontos por vales-presentes exclusivos das melhores marcas</p>
+                </div>
+                <div class="tabs">
+                    <button class="tab active" data-tab="dr-celulares">DR Celulares</button>
+                    <button class="tab" data-tab="hering">Hering</button>
+                    <button class="tab" data-tab="zona-sport">Zona do Sport</button>
+                </div>
+                <div class="tab-content active" id="dr-celulares">
+                    <div class="prizes-grid">
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/2c3e50/ffffff?text=DR+CELULARES');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 100</h3>
+                                <div class="prize-points">150 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/2c3e50/ffffff?text=DR+CELULARES');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 200</h3>
+                                <div class="prize-points">300 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/2c3e50/ffffff?text=DR+CELULARES');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 400</h3>
+                                <div class="prize-points">600 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="hering">
+                     <div class="prizes-grid">
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/c0392b/ffffff?text=HERING');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 80</h3>
+                                <div class="prize-points">100 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/c0392b/ffffff?text=HERING');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 150</h3>
+                                <div class="prize-points">200 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://via.placeholder.com/200x80/c0392b/ffffff?text=HERING');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 300</h3>
+                                <div class="prize-points">400 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="zona-sport">
+                    <div class="prizes-grid">
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://s11.aconvert.com/convert/p3r68-cdx67/p6div-58pfv.jpg');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 100</h3>
+                                <div class="prize-points">120 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://s11.aconvert.com/convert/p3r68-cdx67/p6div-58pfv.jpg');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 200</h3>
+                                <div class="prize-points">250 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                        <div class="prize-card fade-in">
+                            <div class="prize-logo" style="background-image: url('https://s11.aconvert.com/convert/p3r68-cdx67/p6div-58pfv.jpg');"></div>
+                            <div class="prize-card-content">
+                                <h3>Vale-Presente R$ 400</h3>
+                                <div class="prize-points">500 pontos</div>
+                                <a href="#" class="cta-button">Resgatar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="niveis" class="bg-light">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Suba de Nível e Ganhe Conquistas 🏆</h2>
+                    <p>Transforme suas indicações em um jogo! Acumule pontos, suba de nível e desbloqueie conquistas exclusivas.</p>
+                </div>
+                <div class="card">
+                    <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: var(--text-dark);">Níveis de Indicador</h3>
+                    <div class="levels-grid">
+                        <div class="level-card bronze fade-in">
+                            <div class="level-icon"><i class="fas fa-award"></i></div>
+                            <h3>Indicador Bronze</h3>
+                            <p>A partir de 100 pontos</p>
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: #cd7f32;"><strong>Benefícios:</strong> Acesso a prêmios básicos</p>
+                        </div>
+                        <div class="level-card prata fade-in">
+                            <div class="level-icon"><i class="fas fa-medal"></i></div>
+                            <h3>Indicador Prata</h3>
+                            <p>A partir de 400 pontos</p>
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: #c0c0c0;"><strong>Benefícios:</strong> +5% de bônus em pontos</p>
+                        </div>
+                        <div class="level-card ouro fade-in">
+                            <div class="level-icon"><i class="fas fa-trophy"></i></div>
+                            <h3>Indicador Ouro</h3>
+                            <p>A partir de 800 pontos</p>
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--frasol-gold);"><strong>Benefícios:</strong> +10% de bônus em pontos</p>
+                        </div>
+                        <div class="level-card embaixador fade-in">
+                            <div class="level-icon"><i class="fas fa-crown"></i></div>
+                            <h3>Embaixador FRASOL</h3>
+                            <p>A partir de 1500 pontos</p>
+                            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--frasol-green);"><strong>Benefícios:</strong> +15% de bônus e brindes exclusivos</p>
+                        </div>
+                    </div>
+                    <hr style="margin: 60px auto; border: 1px solid #eee; max-width: 80%;">
+                    <h3 style="text-align: center; font-size: 1.8rem; margin-bottom: 40px; color: var(--text-dark);">Conquistas para Desbloquear</h3>
+                    <div class="badges-grid">
+                        <div class="badge-item fade-in">
+                            <div class="badge-icon"><i class="fas fa-user-plus"></i></div>
+                            <div>
+                                <h4>Primeira Indicação</h4>
+                                <p>Por fazer sua primeira indicação qualificada.</p>
+                            </div>
+                        </div>
+                        <div class="badge-item fade-in">
+                            <div class="badge-icon"><i class="fas fa-bolt"></i></div>
+                            <div>
+                                <h4>Indicador Veloz</h4>
+                                <p>Indicação convertida em menos de 15 dias.</p>
+                            </div>
+                        </div>
+                        <div class="badge-item fade-in">
+                            <div class="badge-icon"><i class="fas fa-fire"></i></div>
+                            <div>
+                                <h4>Pé Quente</h4>
+                                <p>3 indicações convertidas em um único mês.</p>
+                            </div>
+                        </div>
+                        <div class="badge-item fade-in">
+                            <div class="badge-icon"><i class="fas fa-medal"></i></div>
+                            <div>
+                                <h4>Especialista Solar</h4>
+                                <p>Alcance 10 indicações convertidas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ranking">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Ranking de Indicadores</h2>
+                    <p>Confira os participantes que mais indicaram e acumularam pontos. O próximo pode ser você!</p>
+                </div>
+                <div class="card">
+                    <div class="ranking-table-container">
+                        <table class="ranking-table">
+                            <thead>
+                                <tr>
+                                    <th>Posição</th>
+                                    <th>Nome</th>
+                                    <th>Indicações</th>
+                                    <th>Pontos</th>
+                                    <th>Nível</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="top-rank fade-in">
+                                    <td>1º</td>
+                                    <td>Carlos Silva</td>
+                                    <td>5</td>
+                                    <td>1250</td>
+                                    <td><span style="color: var(--frasol-gold);">Ouro</span></td>
+                                </tr>
+                                <tr class="top-rank fade-in">
+                                    <td>2º</td>
+                                    <td>Ana Oliveira</td>
+                                    <td>4</td>
+                                    <td>980</td>
+                                    <td><span style="color: #c0c0c0;">Prata</span></td>
+                                </tr>
+                                <tr class="top-rank fade-in">
+                                    <td>3º</td>
+                                    <td>Roberto Santos</td>
+                                    <td>3</td>
+                                    <td>750</td>
+                                    <td><span style="color: #c0c0c0;">Prata</span></td>
+                                </tr>
+                                <tr class="fade-in">
+                                    <td>4º</td>
+                                    <td>Maria Souza</td>
+                                    <td>2</td>
+                                    <td>500</td>
+                                    <td><span style="color: #cd7f32;">Bronze</span></td>
+                                </tr>
+                                <tr class="fade-in">
+                                    <td>5º</td>
+                                    <td>João Pereira</td>
+                                    <td>2</td>
+                                    <td>480</td>
+                                    <td><span style="color: #cd7f32;">Bronze</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="bg-light">
+            <div class="container" style="max-width: 800px;">
+                <div class="section-title">
+                    <h2>Dúvidas Frequentes (FAQ) 🤔</h2>
+                    <p>Encontre respostas para as perguntas mais comuns sobre nosso programa de indicações</p>
+                </div>
+                <div class="card">
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">Quando meus pontos são creditados? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">Seus pontos serão creditados em sua conta assim que a instalação do sistema solar do seu indicado for concluída e confirmada em nosso sistema. Este processo geralmente leva de 3 a 5 dias úteis após a finalização da instalação.</div>
+                    </div>
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">Existe um limite de quantas pessoas posso indicar? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">Não há limites! Quanto mais amigos você indicar e se tornarem clientes FRASOL, mais pontos você acumula. Nossa única exigência é que as pessoas indicadas realmente estejam interessadas em energia solar e sejam indicações genuínas.</div>
+                    </div>
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">Os pontos do programa expiram? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">Seus pontos são válidos por 24 meses a partir da data em que foram creditados. Você terá muito tempo para juntar e resgatar prêmios incríveis. A cada novo resgate, a validade dos pontos restantes é renovada.</div>
+                    </div>
+                    <div class="faq-item fade-in">
+                        <div class="faq-question">Como faço para resgatar meu vale-presente? <i class="fas fa-chevron-down"></i></div>
+                        <div class="faq-answer">É muito simples! Ao clicar em "Resgatar" no prêmio desejado, você será direcionado para o nosso WhatsApp. Nossa equipe validará sua pontuação e providenciará o envio do seu vale-presente digitalmente. O processo de resgate leva até 48 horas.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="indicar">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Faça sua Indicação Agora!</h2>
+                    <p>Preencha o formulário abaixo para indicar um amigo e começar a acumular pontos. É rápido e fácil!</p>
+                </div>
+                <div class="card">
+                    <div class="form-container">
+                        <iframe class="responsive-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdUDtayZCfI_7zqorv2hK2_fJ59GGcP-IYD7pc4uvvMeCdaaQ/viewform?embedded=true">Carregando…</iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 FRASOL Energias Renováveis - Programa de Indicações</p>
+            <div class="footer-bottom">
+                <p>Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/559991601780" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // Mobile menu
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navDesktop = document.querySelector('.nav-desktop');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navDesktop.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navDesktop.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Tabs
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document.getElementById(tab.dataset.tab);
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                target.classList.add('active');
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // If it wasn't active, open it
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const checkFade = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', checkFade);
+        window.addEventListener('load', checkFade);
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-desktop a').forEach(link => {
+            link.addEventListener('click', () => {
+                navDesktop.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
