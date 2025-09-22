@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRASOL - Energia Solar com Retorno Garantido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --frasol-green: #004d40;
+            --frasol-gold: #d4af37;
+            --frasol-dark: #1a1a1a;
+            --frasol-light: #f5f5f5;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-text {
+            font-weight: 800;
+            font-size: 24px;
+            background: linear-gradient(to right, var(--frasol-green), #006953);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-subtext {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            border-left: 2px solid var(--frasol-gold);
+            padding-left: 8px;
+        }
+        
+        .nav-desktop {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-desktop a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-desktop a:hover {
+            color: var(--frasol-green);
+        }
+        
+        .cta-button {
+            background: linear-gradient(to right, var(--frasol-gold), #e5c267);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--frasol-dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 77, 64, 0.8), rgba(0, 77, 64, 0.9)), url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1772&q=80') center/cover no-repeat;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--frasol-dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* How It Works */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        
+        .step-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(0, 77, 64, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--frasol-green);
+            font-size: 24px;
+        }
+        
+        .step-card h3 {
+            margin-bottom: 15px;
+            color: var(--frasol-dark);
+        }
+        
+        /* Investment Models */
+        .models-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .model-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .model-card.featured {
+            border-color: var(--frasol-green);
+        }
+        
+        .model-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--frasol-dark);
+        }
+        
+        .model-price {
+            color: var(--frasol-green);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .model-features {
+            margin: 20px 0;
+            flex-grow: 1;
+        }
+        
+        .model-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .model-features i {
+            color: var(--frasol-green);
+        }
+        
+        /* Calculator - Estilo atualizado para combinar com a segunda página */
+        .calculator-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .calculator-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .calculator-tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .calculator-tab.active {
+            color: var(--frasol-green);
+        }
+        
+        .calculator-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--frasol-green);
+        }
+        
+        .calculator-content {
+            display: none;
+        }
+        
+        .calculator-content.active {
+            display: block;
+        }
+        
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .calculator-input, .calculator-results {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--frasol-green);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            color: var(--frasol-green);
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-top: 30px;
+        }
+        
+        /* Features */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .feature-item {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .feature-icon {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 77, 64, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--frasol-green);
+            font-size: 20px;
+        }
+        
+        /* Testimonials */
+        .testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        /* FAQ */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+        
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .faq-answer {
+            margin-top: 15px;
+            color: var(--text-light);
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        /* Contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: var(--frasol-dark);
+            color: white;
+            padding: 50px;
+            border-radius: 15px;
+        }
+        
+        .contact-info h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--frasol-gold), #e5c267);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .contact-benefits {
+            margin: 25px 0;
+        }
+        
+        .contact-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .google-form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            color: var(--text-dark);
+            height: 100%;
+        }
+        
+        .google-form-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding-top: 130%; /* Proporção 1:1.3 para altura:largura */
+            height: 0;
+        }
+        
+        .google-form-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* Partners */
+        .partners-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .partner-logo {
+            height: 40px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            filter: grayscale(100%);
+        }
+        
+        .partner-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--frasol-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        
+        .footer-col h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--frasol-gold);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-contact li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .steps-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .testimonials-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .steps-container,
+            .models-container,
+            .features-container,
+            .testimonials-container,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .google-form-wrapper {
+                padding-top: 150%; /* Ajuste para mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-text">FRASOL</span>
+                <span class="logo-subtext">ENERGIA SOLAR</span>
+            </a>
+            
+            <nav class="nav-desktop">
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#modelos">Modelos de Investimento</a>
+                <a href="#calculadora">Calculadora</a>
+                <a href="#contato">Contato</a>
+            </nav>
+            
+            <a href="https://wa.me/559991601780" target="_blank" class="cta-button">Fale com um Especialista</a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Transforme o Sol em Renda Passiva Previsível</h1>
+            <p>Invista em usinas solares de alta performance no Maranhão e garanta um futuro energético e financeiro mais brilhante.</p>
+            <div class="hero-buttons">
+                <a href="#calculadora" class="cta-button">Simular Investimento</a>
+                <a href="https://wa.me/559991601780" target="_blank" class="cta-button" style="background: rgba(255, 255, 255, 0.2); border: 2px solid white;">Fale com um Especialista</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="como-funciona">
+        <div class="container">
+            <div class="section-title">
+                <h2>O Caminho da Sua Renda Passiva Solar</h2>
+                <p>Entenda em 4 passos simples como seu investimento se transforma em lucro.</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3>Você Investe</h3>
+                    <p>Você escolhe um de nossos modelos de investimento e adquire uma cota de uma usina solar de alta performance.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Nós Operamos</h3>
+                    <p>A FRASOL cuida de todo o processo: projeto, instalação, homologação e manutenção contínua da usina.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>A Usina Gera Energia</h3>
+                    <p>Sua cota da usina gera energia limpa, que é injetada na rede elétrica e convertida em créditos de energia.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Você Recebe Sua Renda</h3>
+                    <p>Os créditos são vendidos para empresas parceiras e você recebe mensalmente sua participação nos lucros.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Models -->
+    <section id="modelos" style="background-color: #f5f5f5;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Encontre o Projeto Ideal para Seus Objetivos</h2>
+                <p>Temos a estrutura de investmento perfeita para seu perfil e capital.</p>
+            </div>
+            
+            <div class="models-container">
+                <div class="model-card">
+                    <h3>Pequeno Porte (75 kW)</h3>
+                    <p class="model-price">R$ 280-320 mil</p>
+                    <p>Ideal para quem está começando. Retorno em 3 a 4 anos e lucro mensal de R$6-8 mil.</p>
+                    
+                    <ul class="model-features">
+                        <li><i class="fas fa-check-circle"></i> Geração anual: 112.500 kWh</li>
+                        <li><i class="fas fa-check-circle"></i> Receita mensal: R$6-8 mil</li>
+                        <li><i class="fas fa-check-circle"></i> Payback: 3-4 anos</li>
+                        <li><i class="fas fa-check-circle"></i> Ideal para iniciar</li>
+                    </ul>
+                    
+                    <a href="https://wa.me/559991601780" target="_blank" class="cta-button">Solicitar Proposta</a>
+                </div>
+                
+                <div class="model-card featured">
+                    <h3>Médio Porte (300 kW)</h3>
+                    <p class="model-price">R$ 1,3 milhão</p>
+                    <p>Para empresas ou investidores com maior capital que desejam uma usina exclusiva.</p>
+                    
+                    <ul class="model-features">
+                        <li><i class="fas fa-check-circle"></i> Geração anual: 450.000 kWh</li>
+                        <li><i class="fas fa-check-circle"></i> Receita mensal: R$26 mil</li>
+                        <li><i class="fas fa-check-circle"></i> Payback: 4-5 anos</li>
+                        <li><i class="fas fa-check-circle"></i> Controle total do ativo</li>
+                    </ul>
+                    
+                    <a href="https://wa.me/559991601780" target="_blank" class="cta-button">Solicitar Proposta</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <section id="calculadora">
+        <div class="container">
+            <div class="section-title">
+                <h2>Visualize o Potencial de Ganhos</h2>
+                <p>Use nossa calculadora para projetar a rentabilidade do seu investmento em energia solar.</p>
+            </div>
+            
+            <div class="calculator-container">
+                <div class="calculator-tabs">
+                    <button class="calculator-tab active" data-tab="retorno">Calculadora de Retorno</button>
+                    <button class="calculator-tab" data-tab="financiamento">Calculadora de Financiamento</button>
+                </div>
+                
+                <!-- Calculadora de Retorno -->
+                <div class="calculator-content active" id="retorno-calculator">
+                    <div class="calculator-grid">
+                        <div class="calculator-input">
+                            <h3>Informe os dados para simulação</h3>
+                            
+                            <div class="form-group">
+                                <label for="investimento">Valor do Investimento (mínimo R$ 150.000)</label>
+                                <input type="number" id="investimento" placeholder="Exemplo: 300000" min="150000" step="1000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="aumentoAnual">Aumento Anual do Preço do kWh (%)</label>
+                                <input type="number" id="aumentoAnual" value="10" step="0.1" min="0" max="20">
+                            </div>
+                            
+                            <button id="calcular" class="cta-button" style="width: 100%;">Calcular Retorno</button>
+                        </div>
+                        
+                        <div class="calculator-results">
+                            <h3>Projeção de Rentabilidade</h3>
+                            
+                            <div class="result-item">
+                                <span>Capacidade estimada:</span>
+                                <span class="result-value" id="capacidade-kwp">0 kWp</span>
+                            </div>
+                            
+                            <div class="result-item">
+                                <span>Geração anual:</span>
+                                <span class="result-value" id="geracao-anual">0 kWh</span>
+                            </div>
+                            
+                            <div class="result-item">
+                                <span>Receita mensal (1º ano):</span>
+                                <span class="result-value" id="receita-mensal">R$ 0,00</span>
+                            </div>
+                            
+                            <div class="result-item">
+                                <span>Payback estimado:</span>
+                                <span class="result-value" id="payback-estimado">0 anos e 0 meses</span>
+                            </div>
+                            
+                            <div class="result-item">
+                                <span>Início do investmento:</span>
+                                <span class="result-value" id="inicio-investimento">-</span>
+                            </div>
+                            
+                            <div class="result-item">
+                                <span>Payback alcançado em:</span>
+                                <span class="result-value" id="payback-data">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="graficoRetorno"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Calculadora de Financiamento -->
+                <div class="calculator-content" id="financiamento-calculator">
+                    <div class="calculator-grid">
+                        <div class="calculator-input">
+                            <h3>Informe os dados para simulação</h3>
+                            
+                            <div class="form-group">
+                                <label for="valorFinanciamento">Valor do Financiamento</label>
+                                <input type="number" id="valorFinanciamento" placeholder="Exemplo: 300000" min="150000" step="1000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="taxaJurosAnual">Taxa de Juros Anual (%)</label>
+                                <input type="number" id="taxaJurosAnual" placeholder="Exemplo: 10" value="10" step="0.1" min="1">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="prazoAnos">Prazo do Financiamento (Anos)</label>
+                                <input type="number" id="prazoAnos" placeholder="Exemplo: 5" value="5" min="1" max="30" step="1">
+                            </div>
+                            
+                            <button id="calcularFinanciamento" class="cta-button" style="width: 100%;">Calcular Financiamento</button>
+                        </div>
+                        
+                        <div class="calculator-results">
+                            <h3>Resultado da Simulação</h3>
+                            <div id="resultadoFinanciamento"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="graficoFinanciamento"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section style="background-color: #f5f5f5;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Por que Investir com a FRASOL é a Decisão Certa?</h2>
+                <p>Vamos além da tecnologia. Entregamos uma parceria estratégica para o seu patrimônio.</p>
+            </div>
+            
+            <div class="features-container">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3>Segurança Jurídica e Contratual</h3>
+                        <p>Contratos claros, estruturas societárias (SPEs) e ativos reais registrados em seu nome.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <h3>Inteligência de Mercado</h3>
+                        <p>Analisamos os melhores locais e negociamos os melhores contratos de venda de energia.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h3>Gestão Completa e Transparente</h3>
+                        <p>Cuidamos de tudo, do início ao fim. Você acompanha o desempenho através de relatórios.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3>Rentabilidade Acima da Média</h3>
+                        <p>Retornos consistentes e superiores aos de investments tradicionais.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>A Confiança de Quem Já Investe Conosco</h2>
+            </div>
+            
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A FRASOL me apresentou uma forma de diversificar meus investments que eu não conhecia. A renda é previsível e o processo foi 100% transparente. Recomendo."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos S." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Carlos S.</h4>
+                            <p>Empresário</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Investir em uma usina solar parecia complexo, mais a equipe da FRASOL simplificou tudo. Hoje, tenho uma fonte de renda passiva que também contribui para o meio ambiente."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Juliana P." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Juliana P.</h4>
+                            <p>Médica</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A segurança jurídica era minha maior preocupação. A estrutura contratual da FRASOL é robusta e me deu a confiança que eu precisava para investir um capital significativo."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="Marcos A." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Marcos A.</h4>
+                            <p>Advogado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section style="background-color: #f5f5f5;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Perguntas Frequentes</h2>
+                <p>Respostas diretas para as dúvidas do Investidor Inteligente.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quais são os riscos do investmento?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Como todo investmento em ativos reais, existens riscos como danos aos equipamentos ou mudanças regulatórias. Mitigamos isso com seguros completos, equipamentos de ponta com longas garantias e uma estrutura jurídica que protege o investidor.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Como a manutenção é feita? Há custos extras?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A FRASOL é responsável pela manutenção preventiva e corretiva da usina. Os custos de manutenção já estão previstos no modelo de negócio, garantindo que sua rentabilidade projetada não seja afetada por surpresas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quais as garantias contratuais que eu tenho?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Você terá um contrato detalhado que especifica sua cota de participação, a performance mínima garantida da usina e as condições de recebimento da sua renda. O ativo (cota da usina) is seu por direito.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Como a inflação energética afeta meus rendimentos?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Positivamente. A energia elétrica tende a sofrer reajustes acima da inflação. Como sua receita é atrelada ao preço da energia, seu rendimento tende a se valorizar ao longo do tempo, protegendo seu poder de compra.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Tecnologia de Ponta com Parceiros Líderes</h2>
+            </div>
+            
+            <div class="partners-container">
+                <img src="https://via.placeholder.com/200x60/cccccc/666666?text=INTELBRAS" alt="Intelbras" class="partner-logo">
+                <img src="https://via.placeholder.com/200x60/cccccc/666666?text=WEG" alt="WEG" class="partner-logo">
+                <img src="https://via.placeholder.com/200x60/cccccc/666666?text=JINKO SOLAR" alt="Jinko Solar" class="partner-logo">
+                <img src="https://via.placeholder.com/200x60/cccccc/666666?text=CANADIAN SOLAR" alt="Canadian Solar" class="partner-logo">
+                <img src="https://via.placeholder.com/200x60/cccccc/666666?text=GROWATT" alt="Growatt" class="partner-logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contato" style="padding-top: 0;">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Pronto para Diversificar seu Patrimônio com Segurança?</h2>
+                    <p>Preencha o formulário ao lado e um de nossos especialistas em investments solares entrará em contato para apresentar uma proposta formal, sem compromisso.</p>
+                    
+                    <ul class="contact-benefits">
+                        <li><i class="fas fa-check-circle" style="color: var(--frasol-gold);"></i> Análise de perfil de investidor.</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--frasol-gold);"></i> Projeções financeiras detalhadas.</li>
+                        <li><i class="fas fa-check-circle" style="color: var(--frasol-gold);"></i> Esclarecimento de todas as dúvidas.</li>
+                    </ul>
+                </div>
+                
+                <div class="google-form-container">
+                    <h3 style="margin-bottom: 20px; text-align: center;">Solicitar Proposta</h3>
+                    <div class="google-form-wrapper">
+                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeBAhtrBLVjz_wG_Qg7n6kdGbNMmjeABEam1mIzB780-bcQsA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>FRASOL</h3>
+                    <p>Transformando o potencial solar do Maranhão em renda passiva previsível.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Navegação</h3>
+                    <ul class="footer-links">
+                        <li><a href="#como-funciona">Como Funciona</a></li>
+                        <li><a href="#modelos">Modelos de Investimento</a></li>
+                        <li><a href="#calculadora">Calculadora</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contato</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-envelope"></i> contato@frasol.com.br</li>
+                        <li><i class="fas fa-phone"></i> (98) 9XXXX-XXXX</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>E-book Gratuito</h3>
+                    <p>Baixe nosso guia gratuito e domine o investmento em energia solar.</p>
+                    <a href="https://wa.me/559991601780" target="_blank" class="cta-button" style="margin-top: 15px; width: 100%;">Fale com um Especialista</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 FRASOL Energia Solar. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Funcionalidade das abas da calculadora
+        const calculatorTabs = document.querySelectorAll('.calculator-tab');
+        const calculatorContents = document.querySelectorAll('.calculator-content');
+        
+        calculatorTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+                
+                // Ativar aba
+                calculatorTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Mostrar conteúdo correspondente
+                calculatorContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${target}-calculator`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Cálculos da calculadora de retorno (mantidos da primeira calculadora)
+        const investimentoInput = document.getElementById('investimento');
+        const aumentoAnualInput = document.getElementById('aumentoAnual');
+        const calcularBtn = document.getElementById('calcular');
+        const graficoRetornoCanvas = document.getElementById('graficoRetorno');
+        let myChartRetorno = null;
+
+        const valorFinanciamentoInput = document.getElementById('valorFinanciamento');
+        const taxaJurosInput = document.getElementById('taxaJurosAnual');
+        const prazoAnosInput = document.getElementById('prazoAnos');
+        const calcularFinanciamentoBtn = document.getElementById('calcularFinanciamento');
+        const resultadoFinanciamentoDiv = document.getElementById('resultadoFinanciamento');
+        const graficoFinanciamentoCanvas = document.getElementById('graficoFinanciamento');
+        let myChartFinanciamento = null;
+
+        function calcularPayback(investimento, aumentoAnual) {
+            const custoPorKw = 4000;
+            const producaoAnualPorKw = 1500;
+            const precoKwh = 0.86;
+            const kWp = investimento / custoPorKw;
+            const producaoAnual = kWp * producaoAnualPorKw;
+            let precoKwhAtual = precoKwh;
+            
+            let saldoDevedor = investimento;
+            let mesesParaPayback = 0;
+            let anos = 0;
+
+            while (saldoDevedor > 0) {
+                if (mesesParaPayback > 0 && mesesParaPayback % 12 === 0) {
+                    precoKwhAtual *= (1 + aumentoAnual / 100);
+                }
+                const receitaMensalAtual = (producaoAnual * precoKwhAtual) / 12;
+                saldoDevedor -= receitaMensalAtual;
+                mesesParaPayback++;
+            }
+
+            return {
+                kWp,
+                producaoAnual,
+                receitaMensalPrimeiroAno: (producaoAnual * precoKwh) / 12,
+                mesesParaPayback
+            };
+        }
+
+        investimentoInput.addEventListener('input', () => {
+            if (investimentoInput.value >= 150000) {
+                calcularBtn.disabled = false;
+            } else {
+                calcularBtn.disabled = true;
+                if (myChartRetorno) {
+                    myChartRetorno.destroy();
+                    myChartRetorno = null;
+                }
+            }
+        });
+
+        calcularBtn.addEventListener('click', () => {
+            const investimento = parseFloat(investimentoInput.value);
+            const aumentoAnual = parseFloat(aumentoAnualInput.value);
+            if (isNaN(investimento) || investimento < 150000 || isNaN(aumentoAnual)) {
+                alert('Por favor, insira valores válidos.');
+                if (myChartRetorno) {
+                    myChartRetorno.destroy();
+                    myChartRetorno = null;
+                }
+                return;
+            }
+
+            const { kWp, producaoAnual, receitaMensalPrimeiroAno, mesesParaPayback } = calcularPayback(investimento, aumentoAnual);
+            const anosPayback = mesesParaPayback / 12;
+            
+            const dataAtual = new Date();
+            const anoInicial = dataAtual.getFullYear();
+            const mesInicial = dataAtual.toLocaleString('pt-BR', { month: 'long' });
+            
+            const dataPayback = new Date(dataAtual);
+            dataPayback.setMonth(dataPayback.getMonth() + mesesParaPayback);
+            const anoPayback = dataPayback.getFullYear();
+            const mesPayback = dataPayback.toLocaleString('pt-BR', { month: 'long' });
+
+            const rendimentoMensalRendaFixa = investimento * 0.008;
+            const paybackRendaFixa = investimento / (rendimentoMensalRendaFixa * 12);
+            const rendimentoMensalRendaVariavel = investimento * 0.01;
+            const paybackRendaVariavel = investimento / (rendimentoMensalRendaVariavel * 12);
+
+            // Atualizar os elementos de resultado
+            document.getElementById('capacidade-kwp').textContent = `${kWp.toFixed(1)} kWp`;
+            document.getElementById('geracao-anual').textContent = `${producaoAnual.toFixed(0)} kWh`;
+            document.getElementById('receita-mensal').textContent = `R$ ${receitaMensalPrimeiroAno.toFixed(2)}`;
+            document.getElementById('payback-estimado').textContent = `${Math.floor(mesesParaPayback / 12)} anos e ${mesesParaPayback % 12} meses`;
+            document.getElementById('inicio-investimento').textContent = `${mesInicial} de ${anoInicial}`;
+            document.getElementById('payback-data').textContent = `${mesPayback} de ${anoPayback}`;
+
+            if (myChartRetorno) {
+                myChartRetorno.destroy();
+            }
+
+            myChartRetorno = new Chart(graficoRetornoCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ['Investimento Solar', 'Renda Fixa (CDB, TD)', 'Renda Variável (FIIs, Ações)'],
+                    datasets: [{
+                        label: 'Receita Mensal Estimada (R$)',
+                        data: [receitaMensalPrimeiroAno, rendimentoMensalRendaFixa, rendimentoMensalRendaVariavel],
+                        backgroundColor: [
+                            'rgba(212, 175, 55, 0.8)',
+                            'rgba(0, 77, 64, 0.6)',
+                            'rgba(40, 167, 69, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(212, 175, 55, 1)',
+                            'rgba(0, 77, 64, 1)',
+                            'rgba(40, 167, 69, 1)'
+                        ],
+                        borderWidth: 1
+                    }, {
+                        label: 'Payback Estimado (Anos)',
+                        data: [anosPayback, paybackRendaFixa, paybackRendaVariavel],
+                        backgroundColor: [
+                            'rgba(212, 175, 55, 0.4)',
+                            'rgba(0, 77, 64, 0.4)',
+                            'rgba(40, 167, 69, 0.4)'
+                        ],
+                        borderColor: [
+                            'rgba(212, 175, 55, 1)',
+                            'rgba(0, 77, 64, 1)',
+                            'rgba(40, 167, 69, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Valor',
+                                font: { size: 12 }
+                            },
+                            ticks: {
+                                font: { size: 10 }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 10 },
+                                maxRotation: 0,
+                                autoSkip: true
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparativo de Retorno Financeiro',
+                            font: { size: 14 }
+                        },
+                        legend: {
+                            labels: {
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        // Calculadora de financiamento
+        calcularFinanciamentoBtn.addEventListener('click', () => {
+            const valorFinanciamento = parseFloat(valorFinanciamentoInput.value);
+            const taxaJurosAnual = parseFloat(taxaJurosInput.value) / 100;
+            const prazoAnos = parseFloat(prazoAnosInput.value);
+            const prazoComparacaoAnos = prazoAnos + 2;
+            const aumentoAnual = parseFloat(aumentoAnualInput.value) || 0;
+
+            if (isNaN(valorFinanciamento) || valorFinanciamento < 150000 || isNaN(taxaJurosAnual) || isNaN(prazoAnos)) {
+                resultadoFinanciamentoDiv.innerText = 'Por favor, preencha todos os campos corretamente.';
+                if (myChartFinanciamento) {
+                    myChartFinanciamento.destroy();
+                    myChartFinanciamento = null;
+                }
+                return;
+            }
+
+            const taxaMensal = taxaJurosAnual / 12;
+            const numMeses = prazoAnos * 12;
+            const numMesesComparacao = prazoComparacaoAnos * 12;
+            
+            const pmt = (valorFinanciamento * (taxaMensal * Math.pow(1 + taxaMensal, numMeses))) / (Math.pow(1 + taxaMensal, numMeses) - 1);
+            const pmtComparacao = (valorFinanciamento * (taxaMensal * Math.pow(1 + taxaMensal, numMesesComparacao))) / (Math.pow(1 + taxaMensal, numMesesComparacao) - 1);
+            
+            const { receitaMensalPrimeiroAno } = calcularPayback(valorFinanciamento, aumentoAnual);
+            const receitaMensal = receitaMensalPrimeiroAno;
+
+            const lucroMensal = receitaMensal - pmt;
+            const lucroMensalComparacao = receitaMensal - pmtComparacao;
+            const lucroAnual = lucroMensal * 12;
+            const lucroAnualComparacao = lucroMensalComparacao * 12;
+            const lucroTotal = lucroMensal * numMeses;
+            const lucroTotalComparacao = lucroMensalComparacao * numMesesComparacao;
+
+            let tempoParaPagarMeses = 0;
+            if (receitaMensal > pmt) {
+                let saldoDevedor = valorFinanciamento;
+                while (saldoDevedor > 0) {
+                    saldoDevedor = saldoDevedor * (1 + taxaMensal) - receitaMensal;
+                    tempoParaPagarMeses++;
+                }
+            }
+            
+            let tempoParaPagarComparacaoMeses = 0;
+            if (receitaMensal > pmtComparacao) {
+                let saldoDevedor = valorFinanciamento;
+                while (saldoDevedor > 0) {
+                    saldoDevedor = saldoDevedor * (1 + taxaMensal) - receitaMensal;
+                    tempoParaPagarComparacaoMeses++;
+                }
+            }
+
+            const resultadoHTML = `
+                <div class="result-item">
+                    <h3>Cenário de ${prazoAnos} Anos</h3>
+                </div>
+                <div class="result-item">
+                    <span>Receita Mensal Estimada:</span>
+                    <span class="result-value">R$ ${receitaMensal.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Parcela Mensal:</span>
+                    <span class="result-value">R$ ${pmt.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Lucro Mensal Líquido:</span>
+                    <span class="result-value" style="color: ${lucroMensal >= 0 ? 'green' : 'red'};">R$ ${lucroMensal.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Situação:</span>
+                    <span class="result-value">${receitaMensal > pmt ? '✅ Receita cobre a parcela!' : '❌ Receita não cobre a parcela!'}</span>
+                </div>
+                ${receitaMensal > pmt ? `
+                <div class="result-item">
+                    <span>Lucro Anual Líquido:</span>
+                    <span class="result-value">R$ ${lucroAnual.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Lucro Total do Período:</span>
+                    <span class="result-value">R$ ${lucroTotal.toFixed(2)}</span>
+                </div>` : ''}
+                
+                <div class="result-item" style="margin-top: 20px;">
+                    <h3>Cenário de ${prazoComparacaoAnos} Anos</h3>
+                </div>
+                <div class="result-item">
+                    <span>Receita Mensal Estimada:</span>
+                    <span class="result-value">R$ ${receitaMensal.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Nova Parcela Mensal:</span>
+                    <span class="result-value">R$ ${pmtComparacao.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Lucro Mensal Líquido:</span>
+                    <span class="result-value" style="color: ${lucroMensalComparacao >= 0 ? 'green' : 'red'};">R$ ${lucroMensalComparacao.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Situação:</span>
+                    <span class="result-value">${receitaMensal > pmtComparacao ? '✅ Receita cobre a parcela!' : '❌ Receita não cobre a parcela!'}</span>
+                </div>
+                ${receitaMensal > pmtComparacao ? `
+                <div class="result-item">
+                    <span>Lucro Anual Líquido:</span>
+                    <span class="result-value">R$ ${lucroAnualComparacao.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <span>Lucro Total do Período:</span>
+                    <span class="result-value">R$ ${lucroTotalComparacao.toFixed(2)}</span>
+                </div>` : ''}
+            `;
+            resultadoFinanciamentoDiv.innerHTML = resultadoHTML;
+
+            if (myChartFinanciamento) {
+                myChartFinanciamento.destroy();
+            }
+
+            myChartFinanciamento = new Chart(graficoFinanciamentoCanvas, {
+                type: 'bar',
+                data: {
+                    labels: ['Sua Receita', `Parcela (${prazoAnos} anos)`, `Parcela (${prazoComparacaoAnos} anos)`],
+                    datasets: [{
+                        label: 'Valores Financeiros (R$)',
+                        data: [receitaMensal, pmt, pmtComparacao],
+                        backgroundColor: [
+                            'rgba(212, 175, 55, 0.8)',
+                            'rgba(0, 77, 64, 0.6)',
+                            'rgba(108, 117, 125, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(212, 175, 55, 1)',
+                            'rgba(0, 77, 64, 1)',
+                            'rgba(108, 117, 125, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Valor (R$)',
+                                font: { size: 12 }
+                            },
+                            ticks: {
+                                font: { size: 10 }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 10 },
+                                maxRotation: 0,
+                                autoSkip: true
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Receita x Parcela do Financiamento',
+                            font: { size: 14 }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+
+        // FAQ functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navDesktop = document.querySelector('.nav-desktop');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navDesktop.style.display = navDesktop.style.display === 'flex' ? 'none' : 'flex';
+            navDesktop.style.flexDirection = 'column';
+            navDesktop.style.position = 'absolute';
+            navDesktop.style.top = '100%';
+            navDesktop.style.left = '0';
+            navDesktop.style.right = '0';
+            navDesktop.style.backgroundColor = 'white';
+            navDesktop.style.padding = '20px';
+            navDesktop.style.gap = '15px';
+            navDesktop.style.boxShadow = '0 5px 10px rgba(0,0,0,0.1)';
+        });
+    </script>
+</body>
+</html>
